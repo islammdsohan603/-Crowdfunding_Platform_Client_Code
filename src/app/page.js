@@ -1,5 +1,6 @@
 import Banner from "@/components/homepage/Banner";
 import CategoryFilter from "@/components/homepage/CategoryFilter";
+import HowItWorks from "@/components/homepage/HowWorks";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
     <div>
       <Banner />
       <CategoryFilter />
+      <HowItWorks />
     </div>
   );
 }
