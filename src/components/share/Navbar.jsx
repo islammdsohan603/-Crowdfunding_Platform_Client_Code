@@ -17,8 +17,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-full bg-[#F8FAFC] border-b border-gray-200 font-sans relative z-50">
-      <div className="py-3 px-6 md:px-10 flex items-center justify-between relative z-50 bg-[#F8FAFC]">
+    <nav className="w-full bg-[#0f162e] border-b border-gray-200   font-sans relative z-50">
+      <div className="py-3 px-6 md:px-10 flex items-center justify-between relative z-50 bg-[#0f162e]">
         {/* === Left Side: Logo === */}
         <Link
           href="/"
