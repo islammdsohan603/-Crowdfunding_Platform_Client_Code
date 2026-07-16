@@ -79,9 +79,11 @@ const Navbar = () => {
                 className="rounded-full border border-gray-300 object-cover"
               />
             ) : (
-              <button className="text-gray-600 hover:text-gray-900 transition-colors">
-                <FiUser size={22} />
-              </button>
+              <Link href={"/signup"}>
+                <button className="text-gray-600 hover:text-gray-900 transition-colors">
+                  <FiUser size={22} />
+                </button>
+              </Link>
             )}
           </div>
 
