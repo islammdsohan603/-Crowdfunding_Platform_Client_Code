@@ -1,16 +1,16 @@
-'use client';
-import React, { useState } from 'react';
-import { authClient } from '@/lib/auth-client';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import Link from 'next/link';
+"use client";
+import React, { useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 const LogInPage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
 
@@ -21,17 +21,17 @@ const LogInPage = () => {
       const { error } = await authClient.signIn.email({
         email,
         password,
-        callbackURL: '/dashboard',
+        callbackURL: "/",
       });
 
       if (error) {
-        toast.error(error.message || 'Invalid credentials');
+        toast.error(error.message || "Invalid credentials");
       } else {
-        toast.success('Login Successful!');
-        router.push('/dashboard');
+        toast.success("Login Successful!");
+        router.push("/dashboard");
       }
     } catch (err) {
-      toast.error('Login failed!');
+      toast.error("Login failed!");
     } finally {
       setLoading(false);
     }
@@ -68,12 +68,12 @@ const LogInPage = () => {
             disabled={loading}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all flex items-center justify-center"
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
         <p className="text-gray-400 text-sm mt-4 text-center">
-          Don't have an account?{' '}
+          Don't have an account?{" "}
           <Link href="/signup" className="text-blue-400 hover:underline">
             Sign Up
           </Link>
