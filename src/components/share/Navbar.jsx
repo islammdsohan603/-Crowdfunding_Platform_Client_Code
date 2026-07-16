@@ -71,13 +71,15 @@ const Navbar = () => {
           {/* Auth Profile */}
           <div className="flex items-center justify-center cursor-pointer">
             {session?.user?.image ? (
-              <Image
-                src={session.user.image}
-                alt="User Profile"
-                width={32}
-                height={32}
-                className="rounded-full border border-gray-300 object-cover"
-              />
+              <Link href={"/profile"}>
+                <Image
+                  src={session.user.image}
+                  alt="User Profile"
+                  width={32}
+                  height={32}
+                  className="rounded-full border border-gray-300 object-cover"
+                />
+              </Link>
             ) : (
               <Link href={"/signup"}>
                 <button className="text-gray-600 hover:text-gray-900 transition-colors">
