@@ -1,3 +1,4 @@
+import FundedPage from "@/components/homedata/Funded";
 import Banner from "@/components/homepage/Banner";
 import CallToAction from "@/components/homepage/CallToAction";
 import CategoryFilter from "@/components/homepage/CategoryFilter";
@@ -12,6 +13,7 @@ export default function Home() {
       <Banner />
       <StatsSection />
       <CategoryFilter />
+      <FundedPage />
       <HowItWorks />
       <Testimonials />
       <CallToAction />
