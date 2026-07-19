@@ -1,10 +1,12 @@
-import CompaginsCard from '@/components/explorsdata/CompaginsCard';
+import CampaignsExplorer from '@/components/explorsdata/CampaignsExplorer';
 import { getAllData } from '@/db/data';
 import React from 'react';
 
 const ExplorsPages = async () => {
-  // ডাটা সেফটি চেক (যদি ডাটা না থাকে তবে খালি অ্যারে)
-  const alldata = (await getAllData()) || [];
+  const response = await getAllData();
+
+  const initialData = response?.data || [];
+  const initialTotalPages = response?.totalPages || 1;
 
   return (
     <div className="bg-[#0b0f1a] py-20 min-h-screen font-sans">
@@ -20,12 +22,10 @@ const ExplorsPages = async () => {
           </p>
         </div>
 
-        {/* Campaigns Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {alldata.map((data, index) => (
-            <CompaginsCard key={data._id || index} data={data} index={index} />
-          ))}
-        </div>
+        <CampaignsExplorer
+          initialData={initialData}
+          initialTotalPages={initialTotalPages}
+        />
       </div>
     </div>
   );
