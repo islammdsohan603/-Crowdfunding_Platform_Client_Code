@@ -26,7 +26,7 @@ const CallToAction = () => {
   };
 
   return (
-    <section className="bg-[#050508] py-24 px-4 md:px-8 flex justify-center items-center">
+    <section className="bg-[#0b0f1a] py-24 px-4 md:px-8 flex justify-center items-center">
       <motion.div
         variants={containerVariants}
         initial="hidden"
