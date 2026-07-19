@@ -3,9 +3,11 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const CompaginsCard = ({ data, index }) => {
   const {
+    _id,
     campaignTitle,
     campaignStory,
     fundingGoal,
@@ -84,6 +86,13 @@ const CompaginsCard = ({ data, index }) => {
               <div className="absolute right-0 top-0 bottom-0 w-4 bg-white/30 blur-sm rounded-full"></div>
             </motion.div>
           </div>
+
+          <Link
+            href={`/explors/${_id}`}
+            className="mt-4 block text-center bg-blue-600 hover:bg-blue-500 text-white py-2 rounded-lg transition-colors font-semibold"
+          >
+            View Details
+          </Link>
         </div>
       </div>
     </motion.div>

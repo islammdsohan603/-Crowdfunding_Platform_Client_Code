@@ -23,7 +23,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#0b0f1a] py-12 px-6 md:px-12 text-white font-sans">
+    <footer className="bg-[#0b0f1a] py-12 px-6 md:px-12 text-white font-sans   border-t-2 border-gray-700">
       <motion.div
         className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-10"
         variants={containerVariants}

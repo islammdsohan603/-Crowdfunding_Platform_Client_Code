@@ -21,3 +21,21 @@ export const getAllData = async () => {
     return { success: false, data: [], totalPages: 1 };
   }
 };
+
+// Single data api
+
+export const getSingleData = async (id) => {
+  try {
+    const res = await fetch(`${baseUrl}/api/details/${id}`, { cache: 'no-store' })
+
+    if (!res) {
+      throw new Error("Error in data call");
+    }
+
+    return await res.json()
+
+  } catch (error) {
+    console.error("Data Error", error);
+  }
+}
+
