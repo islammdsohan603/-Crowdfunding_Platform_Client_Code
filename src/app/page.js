@@ -1,4 +1,5 @@
 import Banner from "@/components/homepage/Banner";
+import CallToAction from "@/components/homepage/CallToAction";
 import CategoryFilter from "@/components/homepage/CategoryFilter";
 import HowItWorks from "@/components/homepage/HowWorks";
 import StatsSection from "@/components/homepage/StatsSection";
@@ -13,6 +14,7 @@ export default function Home() {
       <HowItWorks />
       <StatsSection />
       <Testimonials />
+      <CallToAction />
     </div>
   );
 }

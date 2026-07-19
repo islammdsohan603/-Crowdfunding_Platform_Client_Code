@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import React, { useEffect } from 'react';
+import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
 const Counter = ({ from, to, label }) => {
   const count = useMotionValue(from);
-  const rounded = useTransform(count, (latest) => Math.round(latest));
+  const rounded = useTransform(count, latest => Math.round(latest));
 
   useEffect(() => {
-    const controls = animate(count, to, { duration: 2 });
+    const controls = animate(count, to, { duration: 5 });
     return () => controls.stop();
   }, [count, to]);
 
