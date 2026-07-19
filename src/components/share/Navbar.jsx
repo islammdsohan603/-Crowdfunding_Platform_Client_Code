@@ -30,7 +30,7 @@ const Navbar = () => {
         {/* === Middle Side: Desktop Navigation === */}
         <div className="hidden lg:flex items-center space-x-8 text-sm font-medium text-gray-600">
           <Link
-            href="/explore"
+            href="/explores"
             className="text-[#0B57D0] border-b-2 border-[#0B57D0] pb-1"
           >
             Explore
@@ -94,7 +94,6 @@ const Navbar = () => {
             className="lg:hidden text-gray-200 hover:text-gray-300 cursor-pointer transition-colors ml-2"
             onClick={toggleMenu}
           >
-            {/* আইকনেও হালকা অ্যানিমেশন দেওয়া হলো */}
             <motion.div
               initial={{ rotate: 0 }}
               animate={{ rotate: isMobileMenuOpen ? 90 : 0 }}
@@ -127,7 +126,7 @@ const Navbar = () => {
 
             <div className="flex flex-col space-y-4 text-sm font-medium text-gray-600 pt-2">
               <Link
-                href="/explore"
+                href="/explores"
                 className="text-[#0B57D0]"
                 onClick={() => setIsMobileMenuOpen(false)}
               >

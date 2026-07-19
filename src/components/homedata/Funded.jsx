@@ -22,7 +22,7 @@ const FundedPage = async () => {
             </p>
           </div>
           <Link
-            href={'/campaigns'}
+            href={'/explors'}
             className="group flex items-center gap-2 text-blue-500 hover:text-blue-400 font-semibold transition-all duration-300 whitespace-nowrap"
           >
             <span>View All Campaigns</span>
