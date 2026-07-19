@@ -28,9 +28,9 @@ const Navbar = () => {
         </Link>
 
         {/* === Middle Side: Desktop Navigation === */}
-        <div className="hidden lg:flex items-center space-x-8 text-sm font-medium text-gray-600">
+        <div className="hidden lg:flex items-center space-x-8 text-sm font-medium text-gray-200">
           <Link
-            href="/explores"
+            href="/explors"
             className="text-[#0B57D0] border-b-2 border-[#0B57D0] pb-1"
           >
             Explore
@@ -113,20 +113,20 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="lg:hidden absolute top-full left-0 w-full bg-[#F8FAFC] border-b border-gray-200 px-6 py-5 shadow-xl flex flex-col space-y-4 -z-10"
+            className="lg:hidden absolute top-full left-0 w-full bg-[#0b0f1a] border-b border-gray-200 px-6 py-5 shadow-xl flex flex-col space-y-4 -z-10"
           >
             <div className="relative w-full md:hidden">
               <input
                 type="text"
                 placeholder="Search projects..."
-                className="w-full bg-[#E8EEF6] text-sm text-gray-700 placeholder-gray-500 rounded-lg pl-4 pr-10 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#0B57D0] transition-all"
+                className="w-full bg-[#E8EEF6] text-sm text-gray-200 placeholder-gray-300 rounded-lg pl-4 pr-10 py-2.5 focus:outline-none focus:ring-1 focus:ring-[#0B57D0] transition-all"
               />
               <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" />
             </div>
 
-            <div className="flex flex-col space-y-4 text-sm font-medium text-gray-600 pt-2">
+            <div className="flex flex-col space-y-4 text-sm font-medium text-gray-200 pt-2">
               <Link
-                href="/explores"
+                href="/explors"
                 className="text-[#0B57D0]"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
