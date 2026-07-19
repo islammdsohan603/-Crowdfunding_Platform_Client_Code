@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { FiSearch, FiBell, FiUser, FiMenu, FiX } from "react-icons/fi";
-import { useSession } from "@/lib/auth-client";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { FiSearch, FiBell, FiUser, FiMenu, FiX } from 'react-icons/fi';
+import { useSession } from '@/lib/auth-client';
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -64,14 +64,14 @@ const Navbar = () => {
             Purchase Credit
           </button>
 
-          <button className="text-gray-600 hover:text-gray-900 transition-colors">
+          <button className="text-gray-200 hover:text-gray-300 transition-colors">
             <FiBell size={20} />
           </button>
 
           {/* Auth Profile */}
           <div className="flex items-center justify-center cursor-pointer">
             {session?.user?.image ? (
-              <Link href={"/profile"}>
+              <Link href={'/profile'}>
                 <Image
                   src={session.user.image}
                   alt="User Profile"
@@ -81,7 +81,7 @@ const Navbar = () => {
                 />
               </Link>
             ) : (
-              <Link href={"/signup"}>
+              <Link href={'/signup'}>
                 <button className="text-gray-600 hover:text-gray-900 transition-colors">
                   <FiUser size={22} />
                 </button>
@@ -91,7 +91,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Toggle Button */}
           <button
-            className="lg:hidden text-gray-600 hover:text-gray-900 cursor-pointer transition-colors ml-2"
+            className="lg:hidden text-gray-200 hover:text-gray-300 cursor-pointer transition-colors ml-2"
             onClick={toggleMenu}
           >
             {/* আইকনেও হালকা অ্যানিমেশন দেওয়া হলো */}
@@ -113,7 +113,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="lg:hidden absolute top-full left-0 w-full bg-[#F8FAFC] border-b border-gray-200 px-6 py-5 shadow-xl flex flex-col space-y-4 -z-10"
           >
             <div className="relative w-full md:hidden">

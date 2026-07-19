@@ -10,9 +10,9 @@ export default function Home() {
   return (
     <div>
       <Banner />
+      <StatsSection />
       <CategoryFilter />
       <HowItWorks />
-      <StatsSection />
       <Testimonials />
       <CallToAction />
     </div>
