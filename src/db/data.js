@@ -15,3 +15,21 @@ export const getFundedData = async () => {
     console.log("Data Error", error)
   }
 }
+
+// all data call api
+
+export const getAllData = async () => {
+  try {
+
+    const res = await fetch(`${baseUrl}/api/all/data`, { cache: 'no-store' })
+
+    if (!res.ok) {
+      throw new Error("Error in data call")
+    }
+
+    return await res.json()
+
+  } catch (error) {
+    console.log("All Data Error", error)
+  }
+}
