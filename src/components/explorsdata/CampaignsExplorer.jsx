@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import CompaginsCard from './CompaginsCard';
 import Pagination from './Pagination';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,14 +9,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5000';
 
 const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
-  const [campaigns, setCampaigns] = useState(initialData);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const activeCategory = searchParams?.get('category') || 'all';
+
+  const [campaigns, setCampaigns] = useState(initialData || []);
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
-  const [totalPages, setTotalPages] = useState(initialTotalPages);
+  const [totalPages, setTotalPages] = useState(initialTotalPages || 1);
   const [isLoading, setIsLoading] = useState(false);
 
-  const searchParams = useSearchParams();
-  const activeCategory = searchParams?.get('category') || 'all';
   const isFirstRender = useRef(true);
+  const prevCategory = useRef(activeCategory);
+
+  useEffect(() => {
+    setCampaigns(initialData);
+    setTotalPages(initialTotalPages);
+    setCurrentPage(initialPage || 1);
+  }, [initialData, initialTotalPages, initialPage]);
 
   const fetchCampaigns = async (page, category) => {
     setIsLoading(true);
@@ -32,6 +43,16 @@ const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
       if (result.success) {
         setCampaigns(result.data);
         setTotalPages(result.totalPages);
+
+        const params = new URLSearchParams(searchParams);
+        params.set('page', page);
+        if (category !== 'all') {
+          params.set('category', category);
+        } else {
+          params.delete('category');
+        }
+
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
       }
     } catch (error) {
       console.error('Failed to fetch campaigns on client:', error);
@@ -46,17 +67,15 @@ const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
       return;
     }
 
-    setCurrentPage(1);
-    fetchCampaigns(1, activeCategory);
-  }, [activeCategory]);
-
-  useEffect(() => {
-    if (isFirstRender.current) {
-      return;
+    if (prevCategory.current !== activeCategory) {
+      prevCategory.current = activeCategory;
+      setCurrentPage(1);
+      fetchCampaigns(1, activeCategory);
+    } else {
+      fetchCampaigns(currentPage, activeCategory);
     }
-
-    fetchCampaigns(currentPage, activeCategory);
-  }, [currentPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, activeCategory]);
 
   return (
     <div className="min-h-[450px] relative">
@@ -82,7 +101,7 @@ const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
               </div>
             ))}
           </motion.div>
-        ) : (
+        ) : campaigns?.length > 0 ? (
           <motion.div
             key="grid"
             initial={{ opacity: 0 }}
@@ -98,16 +117,23 @@ const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
               />
             ))}
           </motion.div>
+        ) : (
+          <div className="flex justify-center items-center h-64 text-gray-400">
+            No campaigns found for this category.
+          </div>
         )}
       </AnimatePresence>
 
+      {/* Pagination Section */}
       <div className="mt-16 flex justify-center">
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-          isLoading={isLoading}
-        />
+        {totalPages > 1 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            isLoading={isLoading}
+          />
+        )}
       </div>
     </div>
   );

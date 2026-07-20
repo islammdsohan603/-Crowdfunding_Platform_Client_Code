@@ -16,6 +16,8 @@ const CompaginsCard = ({ data, index }) => {
     status,
   } = data;
 
+  console.log(data);
+
   const safeFundingGoal = fundingGoal > 0 ? fundingGoal : 1;
   const progressPercentage = Math.min(
     (amountRaised / safeFundingGoal) * 100,

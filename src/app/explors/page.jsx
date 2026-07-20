@@ -10,6 +10,8 @@ const ExplorsPages = async ({ searchParams }) => {
 
   const response = await getAllData(currentPage, 6, currentCategory);
 
+  console.log(response);
+
   const initialData = response?.data || [];
   const initialTotalPages = response?.totalPages || 1;
 
