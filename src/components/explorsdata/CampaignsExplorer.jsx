@@ -6,6 +6,8 @@ import CompaginsCard from './CompaginsCard';
 import Pagination from './Pagination';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5000';
+
 const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
   const [campaigns, setCampaigns] = useState(initialData);
   const [currentPage, setCurrentPage] = useState(initialPage || 1);
@@ -15,8 +17,6 @@ const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
   const searchParams = useSearchParams();
   const activeCategory = searchParams?.get('category') || 'all';
   const isFirstRender = useRef(true);
-
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const fetchCampaigns = async (page, category) => {
     setIsLoading(true);

@@ -13,13 +13,20 @@ import {
 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { apiRequest, clearAccessToken } from "@/lib/api";
 
 const ProfilePage = () => {
   const { data: session, isPending } = useSession();
+  const [profile, setProfile] = React.useState(null);
   const router = useRouter();
+
+  React.useEffect(() => {
+    apiRequest('/api/users/me').then(result => setProfile(result.data)).catch(() => {});
+  }, []);
 
   const handleSignOut = async () => {
     try {
+      clearAccessToken();
       await authClient.signOut({
         fetchOptions: {
           onSuccess: () => {
@@ -80,6 +87,14 @@ const ProfilePage = () => {
             <div>
               <p className="text-xs text-gray-400">Email Address</p>
               <p>{user.email}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 bg-[#1F2937] p-4 rounded-xl">
+            <FiUser className="text-blue-500 text-xl" />
+            <div>
+              <p className="text-xs text-gray-400">Role & Credits</p>
+              <p>{profile?.role || 'Supporter'} - {profile?.credits ?? 0} credits</p>
             </div>
           </div>
 

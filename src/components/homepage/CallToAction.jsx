@@ -50,8 +50,8 @@ const CallToAction = () => {
           variants={itemVariants}
           className="text-gray-400 text-base md:text-lg max-w-2xl mx-auto mb-12 leading-relaxed font-light relative z-10"
         >
-          Whether you're looking to fund your next big idea or support the
-          innovations of tomorrow, there's a place for you here.
+          Whether you&apos;re looking to fund your next big idea or support the
+          innovations of tomorrow, there&apos;s a place for you here.
         </motion.p>
 
         {/* Buttons */}
@@ -60,7 +60,7 @@ const CallToAction = () => {
           className="flex flex-col sm:flex-row justify-center items-center gap-5 md:gap-6 relative z-10"
         >
           {/* Primary Button */}
-          <Link href="/add-campaign" className="w-full sm:w-auto">
+          <Link href="/dashboard/add-campaign" className="w-full sm:w-auto">
             <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold transition-all duration-300 shadow-[0_0_20px_rgba(37,99,235,0.25)] hover:shadow-[0_0_35px_rgba(37,99,235,0.45)] flex items-center justify-center gap-3">
               <Rocket size={20} />
               Start a Project
@@ -68,7 +68,7 @@ const CallToAction = () => {
           </Link>
 
           {/* Secondary Button */}
-          <Link href="/explore" className="w-full sm:w-auto">
+          <Link href="/explors" className="w-full sm:w-auto">
             <button className="w-full sm:w-auto px-8 py-4 rounded-xl bg-transparent border border-gray-700 text-gray-300 hover:text-white hover:border-gray-400 hover:bg-gray-800/50 font-semibold transition-all duration-300 flex items-center justify-center gap-3">
               <HeartHandshake size={20} />
               Become a Backer

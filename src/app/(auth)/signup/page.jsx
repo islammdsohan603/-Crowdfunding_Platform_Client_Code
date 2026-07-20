@@ -1,66 +1,94 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { motion, AnimatePresence } from "framer-motion";
-import Link from "next/link";
-import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { toast } from 'react-toastify';
+import { authClient } from '@/lib/auth-client';
+import { apiRequest, createAccessToken, uploadToImgBB } from '@/lib/api';
 import {
   FiEye,
   FiEyeOff,
-  FiLoader,
-  FiUser,
-  FiMail,
-  FiLock,
   FiImage,
-} from "react-icons/fi";
+  FiLoader,
+  FiLock,
+  FiMail,
+  FiUser,
+} from 'react-icons/fi';
 
 const SignUpPage = () => {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSignUpForm = async (e) => {
+  const handleGoogleSignUp = async () => {
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL: '/dashboard',
+    });
+  };
+
+  const handleSignUpForm = async e => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const formData = new FormData(e.currentTarget);
     const users = Object.fromEntries(formData.entries());
 
-    if (users.password.length < 6) {
-      toast.error("Password must be at least 6 characters!");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(users.email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+
+    if (!/^(?=.*[A-Za-z])(?=.*\d).{6,}$/.test(users.password)) {
+      toast.error('Password must be 6+ characters and include a number.');
       return;
     }
 
     setLoading(true);
 
     try {
-      const { data, error } = await authClient.signUp.email({
+      const uploadedImage = users.imageFile?.size
+        ? await uploadToImgBB(users.imageFile)
+        : '';
+      const photoURL = uploadedImage || users.image;
+
+      const { error } = await authClient.signUp.email({
         name: users.name,
         email: users.email,
         password: users.password,
-        image: users.image,
+        image: photoURL,
       });
 
-      console.log(data);
-
       if (error) {
-        toast.error(error.message || "Failed to create account");
-      } else {
-        toast.success("Account Created Successfully!");
-        router.push("/login");
+        toast.error(error.message || 'Failed to create account');
+        return;
       }
+
+      await createAccessToken(users.email);
+      await apiRequest('/api/users/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          displayName: users.name,
+          email: users.email,
+          photoURL,
+          role: users.role,
+        }),
+      });
+
+      toast.success('Account created successfully!');
+      router.push('/dashboard');
     } catch (err) {
-      toast.error("Something went wrong!");
+      toast.error(err.message || 'Something went wrong!');
     } finally {
       setLoading(false);
     }
   };
 
   const inputClass =
-    "w-full bg-[#1F2937] text-white pl-10 pr-4 py-3 rounded-xl border border-white/10 focus:border-blue-500 outline-none transition-all";
+    'w-full bg-[#1F2937] text-white pl-10 pr-4 py-3 rounded-xl border border-white/10 focus:border-blue-500 outline-none transition-all';
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] flex items-center justify-center p-6">
+    <div className="min-h-screen bg-[#0B0F19] flex items-center justify-center p-6 pt-28">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -71,38 +99,33 @@ const SignUpPage = () => {
         </h2>
 
         <form onSubmit={handleSignUpForm} className="space-y-5">
-          {/* Name */}
           <div className="relative">
             <FiUser className="absolute left-3 top-3.5 text-gray-400" />
-            <input
-              required
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              className={inputClass}
-            />
+            <input required type="text" name="name" placeholder="Full Name" className={inputClass} />
           </div>
 
-          {/* Email */}
           <div className="relative">
             <FiMail className="absolute left-3 top-3.5 text-gray-400" />
-            <input
-              required
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              className={inputClass}
-            />
+            <input required type="email" name="email" placeholder="Email Address" className={inputClass} />
           </div>
 
-          {/* Password */}
+          <select
+            required
+            name="role"
+            defaultValue="Supporter"
+            className="w-full bg-[#1F2937] text-white px-4 py-3 rounded-xl border border-white/10 focus:border-blue-500 outline-none transition-all"
+          >
+            <option value="Supporter">Supporter - starts with 50 credits</option>
+            <option value="Creator">Creator - starts with 20 credits</option>
+          </select>
+
           <div className="relative">
             <FiLock className="absolute left-3 top-3.5 text-gray-400" />
             <input
               required
-              type={showPass ? "text" : "password"}
+              type={showPass ? 'text' : 'password'}
               name="password"
-              placeholder="Password (min 6 chars)"
+              placeholder="Password with letters and numbers"
               className={inputClass}
             />
             <button
@@ -114,17 +137,17 @@ const SignUpPage = () => {
             </button>
           </div>
 
-          {/* Image */}
           <div className="relative">
             <FiImage className="absolute left-3 top-3.5 text-gray-400" />
-            <input
-              required
-              type="url"
-              name="image"
-              placeholder="Photo URL"
-              className={inputClass}
-            />
+            <input type="url" name="image" placeholder="Photo URL" className={inputClass} />
           </div>
+
+          <input
+            type="file"
+            name="imageFile"
+            accept="image/*"
+            className="w-full text-sm text-gray-300 file:mr-4 file:rounded-lg file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:text-white"
+          />
 
           <motion.button
             whileHover={{ scale: 1.02 }}
@@ -133,16 +156,20 @@ const SignUpPage = () => {
             type="submit"
             className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-[0_0_15px_rgba(37,99,235,0.3)] flex items-center justify-center gap-2"
           >
-            {loading ? <FiLoader className="animate-spin" /> : "Sign Up"}
+            {loading ? <FiLoader className="animate-spin" /> : 'Sign Up'}
           </motion.button>
         </form>
 
+        <button
+          onClick={handleGoogleSignUp}
+          className="mt-4 w-full rounded-xl border border-gray-700 py-3 font-semibold text-gray-200 hover:bg-gray-800"
+        >
+          Continue with Google
+        </button>
+
         <p className="text-gray-400 text-sm mt-6 text-center">
-          Already have an account?{" "}
-          <Link
-            href="/login"
-            className="text-blue-400 font-medium hover:underline"
-          >
+          Already have an account?{' '}
+          <Link href="/login" className="text-blue-400 font-medium hover:underline">
             Login
           </Link>
         </p>

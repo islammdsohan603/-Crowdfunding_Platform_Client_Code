@@ -1,4 +1,4 @@
-const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
+const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5000';
 
 export const getFundedData = async () => {
   try {

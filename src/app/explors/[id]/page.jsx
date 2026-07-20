@@ -2,6 +2,7 @@ import { getSingleData } from '@/db/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import ContributionPanel from '@/components/explorsdata/ContributionPanel';
 
 const ExplorerDetailsPages = async ({ params }) => {
   const { id } = await params;
@@ -119,7 +120,7 @@ const ExplorerDetailsPages = async ({ params }) => {
             </h3>
             <div className="bg-blue-900/10 border border-blue-900/30 p-5 rounded-xl">
               <p className="text-blue-200 text-lg font-medium mb-2">
-                Contribute ${details.minimumContribution} or more
+                Contribute {details.minimumContribution} credits or more
               </p>
               <p className="text-gray-400 leading-relaxed">
                 {details.rewardInfo}
@@ -133,12 +134,12 @@ const ExplorerDetailsPages = async ({ params }) => {
           <div className="bg-[#12141d] border border-gray-800 rounded-2xl p-8 sticky top-24 shadow-2xl">
             <div className="mb-8">
               <p className="text-4xl font-bold text-emerald-400 mb-2">
-                ${details.amountRaised.toLocaleString()}
+                {details.amountRaised.toLocaleString()} credits
               </p>
               <p className="text-gray-500 text-sm">
                 raised of{' '}
                 <span className="text-gray-300 font-semibold">
-                  ${details.fundingGoal.toLocaleString()}
+                  {details.fundingGoal.toLocaleString()} credits
                 </span>{' '}
                 goal
               </p>
@@ -160,15 +161,10 @@ const ExplorerDetailsPages = async ({ params }) => {
               <span className="text-gray-400">{daysLeft} Days Left</span>
             </div>
 
-            {/* Action Buttons */}
-            <div className="space-y-4">
-              <button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.5)]">
-                Contribute Now
-              </button>
-              <p className="text-center text-xs text-gray-500">
-                Minimum contribution is ${details.minimumContribution}
-              </p>
-            </div>
+            <ContributionPanel campaign={details} />
+            <p className="mt-4 text-center text-xs text-gray-500">
+              Minimum contribution is {details.minimumContribution} credits
+            </p>
 
             {/* Creator Mini-Profile */}
             <div className="mt-8 pt-8 border-t border-gray-800">
