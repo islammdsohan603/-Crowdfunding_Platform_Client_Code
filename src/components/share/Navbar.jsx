@@ -66,7 +66,7 @@ const Navbar = () => {
             Dashboard
           </Link>
           <Link
-            href="/join"
+            href="/developer"
             className="hover:text-gray-400 pb-1 transition-colors"
           >
             Join Developer
@@ -164,7 +164,7 @@ const Navbar = () => {
                 Dashboard
               </Link>
               <Link
-                href="/join"
+                href="/developer"
                 className="hover:text-blue-400 transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
