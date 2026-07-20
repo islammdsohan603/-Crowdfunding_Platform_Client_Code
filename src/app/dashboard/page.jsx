@@ -1,15 +1,13 @@
-'use client'; // হুক ব্যবহারের জন্য এটি ক্লায়েন্ট কম্পোনেন্ট হতে হবে
+'use client';
 
 import { useSession } from '@/lib/auth-client';
 import React from 'react';
 
 const DashBoardPage = () => {
-  // getSession এর বদলে useSession হুক ব্যবহার করতে হবে
   const { data: session, isPending } = useSession();
 
   const user = session?.user;
 
-  // ডাটা লোড হওয়ার সময় একটি লোডিং অ্যানিমেশন দেখাবে
   if (isPending) {
     return (
       <div className="min-h-screen bg-[#0b0f1a] flex justify-center items-center">
@@ -20,10 +18,10 @@ const DashBoardPage = () => {
 
   return (
     <div className="min-h-screen bg-[#0b0f1a] py-20 px-6 font-sans">
-      <div className="max-w-6xl mx-auto">
+      <div className=" w-full max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="mb-14 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-emerald-400 mb-4">
             Welcome, {user?.name ? user.name.toUpperCase() : 'USER'}! 👋
           </h1>
           <p className="text-gray-400 text-lg">

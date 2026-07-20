@@ -12,7 +12,7 @@ export default function Footer() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2, // একে একে এলিমেন্টগুলো আসবে
+        staggerChildren: 0.2,
       },
     },
   };
@@ -25,7 +25,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#0b0f1a] py-12 px-6 md:px-12 text-white font-sans   border-t-2 border-gray-700">
       <motion.div
-        className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-10"
+        className=" w-full max-w-7xl mx-auto flex flex-col lg:flex-row justify-between gap-10"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"

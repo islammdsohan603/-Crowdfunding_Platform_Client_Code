@@ -12,6 +12,7 @@ const Navbar = () => {
   const { data: session } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 20) {
@@ -36,10 +37,11 @@ const Navbar = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`fixed top-0 left-0 w-full z-50 font-sans transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0f162e]/80 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)] border-b border-gray-800 py-1'
-          : 'bg-[#0f162e] border-b border-gray-800 py-3'
+          ? 'bg-[#0f162e]/80 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)] border-b border-gray-800 py-2'
+          : 'bg-[#0f162e] border-b border-gray-800 py-4'
       }`}
     >
+      {/* নেভবার এবং ব্যানারের Container Width ঠিক একই রাখা হয়েছে */}
       <div className="w-full max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between relative z-50">
         {/* === Left Side: Logo === */}
         <Link
