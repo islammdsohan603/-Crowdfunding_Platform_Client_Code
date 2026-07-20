@@ -1,4 +1,5 @@
 import CampaignsExplorer from '@/components/explorsdata/CampaignsExplorer';
+import Category from '@/components/explorsdata/Category';
 import { getAllData } from '@/db/data';
 import React from 'react';
 
@@ -13,19 +14,30 @@ const ExplorsPages = async () => {
       <div className="w-11/12 max-w-7xl mx-auto">
         {/* Title & Header Section */}
         <div className="mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-white to-gray-400 mb-4 tracking-tight">
-            All Campaigns
-          </h1>
-          <p className="text-gray-400 text-base md:text-lg leading-relaxed font-light max-w-2xl">
-            Explore all the active projects and innovative ideas from creators
-            worldwide. Find a cause to support today.
-          </p>
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-linear-to-r from-white to-gray-400 mb-4 tracking-tight">
+              All Campaigns
+            </h1>
+            <p className="text-gray-400 text-base md:text-lg leading-relaxed font-light max-w-2xl">
+              Explore all the active projects and innovative ideas from creators
+              worldwide. Find a cause to support today.
+            </p>
+          </div>
         </div>
 
-        <CampaignsExplorer
-          initialData={initialData}
-          initialTotalPages={initialTotalPages}
-        />
+        <div className=" grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <div className=" col-span-1">
+            {/* catogery */}
+
+            <Category />
+          </div>
+          <div className=" col-span-5">
+            <CampaignsExplorer
+              initialData={initialData}
+              initialTotalPages={initialTotalPages}
+            />{' '}
+          </div>
+        </div>
       </div>
     </div>
   );

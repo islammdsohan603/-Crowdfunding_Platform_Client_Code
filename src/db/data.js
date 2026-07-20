@@ -10,10 +10,17 @@ export const getFundedData = async () => {
   }
 };
 
-// All campaigns fetch with pagination support
-export const getAllData = async () => {
+// All campaigns fetch with pagination and filtering support
+export const getAllData = async (page = 1, limit = 6, category = 'all') => {
   try {
-    const res = await fetch(`${baseUrl}/api/all/data?page=1&limit=6`, { cache: 'no-store' });
+    let url = `${baseUrl}/api/all/data?page=${page}&limit=${limit}`;
+
+
+    if (category && category !== 'all') {
+      url += `&category=${encodeURIComponent(category)}`;
+    }
+
+    const res = await fetch(url, { cache: 'no-store' });
     if (!res.ok) throw new Error("Error in data call");
     return await res.json();
   } catch (error) {
