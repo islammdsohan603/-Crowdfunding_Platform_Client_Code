@@ -71,7 +71,7 @@ const Navbar = () => {
           {/* Auth Profile */}
           <div className="flex items-center justify-center cursor-pointer">
             {session?.user?.image ? (
-              <Link href={'/profile'}>
+              <Link href={'dashboard/profile'}>
                 <Image
                   src={session.user.image}
                   alt="User Profile"
