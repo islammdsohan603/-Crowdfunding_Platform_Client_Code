@@ -1,24 +1,32 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import CompaginsCard from './CompaginsCard';
 import Pagination from './Pagination';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const CampaignsExplorer = ({ initialData, initialTotalPages }) => {
+const CampaignsExplorer = ({ initialData, initialTotalPages, initialPage }) => {
   const [campaigns, setCampaigns] = useState(initialData);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage || 1);
   const [totalPages, setTotalPages] = useState(initialTotalPages);
   const [isLoading, setIsLoading] = useState(false);
 
+  const searchParams = useSearchParams();
+  const activeCategory = searchParams?.get('category') || 'all';
   const isFirstRender = useRef(true);
 
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
-  const fetchCampaigns = async page => {
+  const fetchCampaigns = async (page, category) => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${baseUrl}/api/all/data?page=${page}&limit=6`);
+      let url = `${baseUrl}/api/all/data?page=${page}&limit=6`;
+      if (category && category !== 'all') {
+        url += `&category=${encodeURIComponent(category)}`;
+      }
+
+      const res = await fetch(url);
       const result = await res.json();
 
       if (result.success) {
@@ -37,7 +45,17 @@ const CampaignsExplorer = ({ initialData, initialTotalPages }) => {
       isFirstRender.current = false;
       return;
     }
-    fetchCampaigns(currentPage);
+
+    setCurrentPage(1);
+    fetchCampaigns(1, activeCategory);
+  }, [activeCategory]);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      return;
+    }
+
+    fetchCampaigns(currentPage, activeCategory);
   }, [currentPage]);
 
   return (

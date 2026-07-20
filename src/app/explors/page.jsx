@@ -3,8 +3,12 @@ import Category from '@/components/explorsdata/Category';
 import { getAllData } from '@/db/data';
 import React from 'react';
 
-const ExplorsPages = async () => {
-  const response = await getAllData();
+const ExplorsPages = async ({ searchParams }) => {
+  const params = await searchParams;
+  const currentCategory = params?.category || 'all';
+  const currentPage = parseInt(params?.page, 10) || 1;
+
+  const response = await getAllData(currentPage, 6, currentCategory);
 
   const initialData = response?.data || [];
   const initialTotalPages = response?.totalPages || 1;
@@ -25,17 +29,20 @@ const ExplorsPages = async () => {
           </div>
         </div>
 
-        <div className=" grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          <div className=" col-span-1">
-            {/* catogery */}
-
+        {/* Updated Layout for Responsiveness */}
+        <div className="flex flex-col md:flex-row gap-6 lg:gap-8">
+          {/* Category Section: Full width on mobile, 1/4 width on desktop */}
+          <div className="w-full md:w-1/4 lg:w-1/5 shrink-0">
             <Category />
           </div>
-          <div className=" col-span-5">
+
+          {/* Campaigns Explorer: Takes remaining space on desktop */}
+          <div className="w-full md:flex-1">
             <CampaignsExplorer
               initialData={initialData}
               initialTotalPages={initialTotalPages}
-            />{' '}
+              initialPage={currentPage}
+            />
           </div>
         </div>
       </div>
