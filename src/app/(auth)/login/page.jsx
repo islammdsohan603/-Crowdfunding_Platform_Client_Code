@@ -7,9 +7,11 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import { authClient } from '@/lib/auth-client';
 import { apiRequest, createAccessToken } from '@/lib/api';
+import { FiLoader } from 'react-icons/fi'; // Loader Import করা হলো
 
 const LogInPage = () => {
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false); // Google Loading State
   const router = useRouter();
 
   const ensureServerUser = async user => {
@@ -26,10 +28,17 @@ const LogInPage = () => {
   };
 
   const handleGoogleLogin = async () => {
-    await authClient.signIn.social({
-      provider: 'google',
-      callbackURL: '/dashboard',
-    });
+    setGoogleLoading(true); // লোডিং শুরু
+    try {
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL: '/dashboard',
+      });
+      // রিডাইরেক্ট হওয়ার কারণে আর false করার দরকার নেই
+    } catch (error) {
+      toast.error('Google Login failed!');
+      setGoogleLoading(false); // ফেইল করলে লোডিং বন্ধ হবে
+    }
   };
 
   const handleLogin = async e => {
@@ -88,18 +97,32 @@ const LogInPage = () => {
           />
 
           <button
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all flex items-center justify-center"
+            disabled={loading || googleLoading}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? (
+              <>
+                <FiLoader className="animate-spin" /> Logging in...
+              </>
+            ) : (
+              'Login'
+            )}
           </button>
         </form>
 
+        {/* Google Auth Button with Loading */}
         <button
           onClick={handleGoogleLogin}
-          className="mt-4 w-full rounded-xl border border-gray-700 py-3 font-semibold text-gray-200 hover:bg-gray-800"
+          disabled={loading || googleLoading}
+          className="mt-4 w-full rounded-xl border border-gray-700 py-3 font-semibold text-gray-200 hover:bg-gray-800 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Continue with Google
+          {googleLoading ? (
+            <>
+              <FiLoader className="animate-spin text-lg" /> Redirecting...
+            </>
+          ) : (
+            'Continue with Google'
+          )}
         </button>
 
         <p className="text-gray-400 text-sm mt-4 text-center">

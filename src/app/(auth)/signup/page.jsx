@@ -20,13 +20,21 @@ import {
 const SignUpPage = () => {
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false); // Google Loading State
   const router = useRouter();
 
   const handleGoogleSignUp = async () => {
-    await authClient.signIn.social({
-      provider: 'google',
-      callbackURL: '/dashboard',
-    });
+    setGoogleLoading(true); // লোডিং শুরু
+    try {
+      await authClient.signIn.social({
+        provider: 'google',
+        callbackURL: '/dashboard',
+      });
+      // রিডাইরেক্ট হওয়ার কারণে আর false করার দরকার নেই, পেজ চেঞ্জ হয়ে যাবে
+    } catch (error) {
+      toast.error('Google Sign Up failed!');
+      setGoogleLoading(false); // ফেইল করলে লোডিং বন্ধ হবে
+    }
   };
 
   const handleSignUpForm = async e => {
@@ -99,6 +107,7 @@ const SignUpPage = () => {
         </h2>
 
         <form onSubmit={handleSignUpForm} className="space-y-5">
+          {/* ... আপনার আগের ইনপুট ফিল্ডগুলো ... */}
           <div className="relative">
             <FiUser className="absolute left-3 top-3.5 text-gray-400" />
             <input
@@ -171,19 +180,27 @@ const SignUpPage = () => {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            disabled={loading}
+            disabled={loading || googleLoading}
             type="submit"
-            className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-[0_0_15px_rgba(37,99,235,0.3)] flex items-center justify-center gap-2"
+            className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition-all shadow-[0_0_15px_rgba(37,99,235,0.3)] flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? <FiLoader className="animate-spin" /> : 'Sign Up'}
           </motion.button>
         </form>
 
+        {/* Google Auth Button with Loading */}
         <button
           onClick={handleGoogleSignUp}
-          className="mt-4 w-full rounded-xl border border-gray-700 py-3 font-semibold text-gray-200 hover:bg-gray-800"
+          disabled={loading || googleLoading}
+          className="mt-4 w-full rounded-xl border border-gray-700 py-3 font-semibold text-gray-200 hover:bg-gray-800 flex justify-center items-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Continue with Google
+          {googleLoading ? (
+            <>
+              <FiLoader className="animate-spin text-lg" /> Please wait...
+            </>
+          ) : (
+            'Continue with Google'
+          )}
         </button>
 
         <p className="text-gray-400 text-sm mt-6 text-center">
