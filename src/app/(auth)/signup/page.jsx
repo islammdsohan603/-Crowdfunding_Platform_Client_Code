@@ -101,12 +101,24 @@ const SignUpPage = () => {
         <form onSubmit={handleSignUpForm} className="space-y-5">
           <div className="relative">
             <FiUser className="absolute left-3 top-3.5 text-gray-400" />
-            <input required type="text" name="name" placeholder="Full Name" className={inputClass} />
+            <input
+              required
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              className={inputClass}
+            />
           </div>
 
           <div className="relative">
             <FiMail className="absolute left-3 top-3.5 text-gray-400" />
-            <input required type="email" name="email" placeholder="Email Address" className={inputClass} />
+            <input
+              required
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              className={inputClass}
+            />
           </div>
 
           <select
@@ -115,7 +127,9 @@ const SignUpPage = () => {
             defaultValue="Supporter"
             className="w-full bg-[#1F2937] text-white px-4 py-3 rounded-xl border border-white/10 focus:border-blue-500 outline-none transition-all"
           >
-            <option value="Supporter">Supporter - starts with 50 credits</option>
+            <option value="Supporter">
+              Supporter - starts with 50 credits
+            </option>
             <option value="Creator">Creator - starts with 20 credits</option>
           </select>
 
@@ -139,7 +153,12 @@ const SignUpPage = () => {
 
           <div className="relative">
             <FiImage className="absolute left-3 top-3.5 text-gray-400" />
-            <input type="url" name="image" placeholder="Photo URL" className={inputClass} />
+            <input
+              type="url"
+              name="image"
+              placeholder="Photo URL"
+              className={inputClass}
+            />
           </div>
 
           <input
@@ -169,7 +188,10 @@ const SignUpPage = () => {
 
         <p className="text-gray-400 text-sm mt-6 text-center">
           Already have an account?{' '}
-          <Link href="/login" className="text-blue-400 font-medium hover:underline">
+          <Link
+            href="/login"
+            className="text-blue-400 font-medium hover:underline"
+          >
             Login
           </Link>
         </p>
