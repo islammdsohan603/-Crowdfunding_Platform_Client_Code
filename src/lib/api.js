@@ -1,6 +1,6 @@
 'use client';
 
-export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5000';
+export const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export const getAccessToken = () => {
   if (typeof window === 'undefined') return '';

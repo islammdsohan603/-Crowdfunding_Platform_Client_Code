@@ -24,16 +24,16 @@ const SignUpPage = () => {
   const router = useRouter();
 
   const handleGoogleSignUp = async () => {
-    setGoogleLoading(true); // লোডিং শুরু
+    setGoogleLoading(true);
     try {
-      await authClient.signIn.social({
+      const data = await authClient.signIn.social({
         provider: 'google',
         callbackURL: '/dashboard',
       });
-      // রিডাইরেক্ট হওয়ার কারণে আর false করার দরকার নেই, পেজ চেঞ্জ হয়ে যাবে
+      console.log(data);
     } catch (error) {
       toast.error('Google Sign Up failed!');
-      setGoogleLoading(false); // ফেইল করলে লোডিং বন্ধ হবে
+      setGoogleLoading(false);
     }
   };
 
